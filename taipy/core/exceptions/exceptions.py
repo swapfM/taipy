@@ -28,10 +28,6 @@ class OrchestratorServiceIsAlreadyRunning(Exception):
     """Raised if the Orchestrator service is already running."""
 
 
-class EntityAlreadyExists(Exception):
-    """Raised if it is trying to create an Entity that has already existed."""
-
-
 class NonExistingEntity(Exception):
     """Raised if a requested entity is not known by the Entity Manager."""
 
@@ -40,19 +36,7 @@ class NonExistingEntity(Exception):
 
 
 class CycleAlreadyExists(Exception):
-    """Raised if it is trying to create a Cycle that has already existed."""
-
-
-class DataNodeAlreadyExists(Exception):
-    """Raised if it is trying to create a DataNode that has already existed."""
-
-
-class TaskAlreadyExists(Exception):
-    """Raised if it is trying to create a Task that has already existed."""
-
-
-class ScenarioAlreadyExists(Exception):
-    """Raised if it is trying to create a Scenario that has already existed."""
+    """Raised if it is trying to create a Cycle that has already exists."""
 
 
 class NonExistingCycle(Exception):
