@@ -28,7 +28,9 @@ from flask import (
     Flask,
     json,
     jsonify,
+    redirect,
     render_template,
+    send_file,
     send_from_directory,
 )
 from flask_cors import CORS
@@ -157,7 +159,14 @@ class _Server:
     ) -> Blueprint:
         taipy_bp = Blueprint("Taipy", __name__, static_folder=static_folder, template_folder=template_folder)
         # Serve static react build
-
+        @taipy_bp.route("/favicon.png")
+        def serve_favicon():
+            if pathlib.Path(favicon).is_file():  # if user provided favicon conflicts with default taipy favicon
+                return send_file(favicon)
+            elif favicon.startswith("http"):  # default favicon
+                return redirect(favicon)
+            else:
+                return "", 404
         @taipy_bp.route("/", defaults={"path": ""})
         @taipy_bp.route("/<path:path>")
         def my_index(path):
