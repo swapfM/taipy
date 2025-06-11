@@ -36,27 +36,24 @@ def test_favicon(gui: Gui, helpers):
 
 
 def test_root_favicon_is_served(tmp_path, gui: Gui):
-    
     favicon_path = tmp_path / "favicon.png"
     dummy_favicon_content = b"\x89PNG\r\n\x1a\nDummyIcon"
+    #Creating a dummy favicon.png file
     with open(favicon_path, "wb") as f:
         f.write(dummy_favicon_content)
-
-    
     old_cwd = os.getcwd()
     os.chdir(tmp_path)
-
     try:
         with warnings.catch_warnings(record=True):
             gui._set_frame(inspect.currentframe())
             gui.add_page("test", Markdown("# Page"))
             gui.run(favicon="favicon.png", run_server=False)
             client = gui._server.test_client()
-
-            
+            #assert for received file. 
             response = client.get("/favicon.png")
             assert response.status_code == 200
             assert response.data == dummy_favicon_content
             assert response.mimetype == "image/png"
+    #fallback to original directory
     finally:
-        os.chdir(old_cwd)  
+        os.chdir(old_cwd)
